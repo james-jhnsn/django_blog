@@ -1,22 +1,21 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
-<div class="container p-0 m-0">
-<div class="row d-flex justify-content-center vw-100">
-  <div class="hero-image jumbotron d-flex text-light bg-dark justify-content-center">
-    <h1>
-      Blog Posts
-    </h1>
+<h1 class="text-center">
+  Blog Posts
+</h1>
+<div class="row d-flex justify-content-center">
+  <div class="col-12 col-md-5 col-lg-6 justify-content-center">
+    {% for blog in blogs %}
+    <p class="shadow p-3 text-dark">
+      User: {{blog.user.username}} <strong>Title: </strong>{{blog.title}} | {{blog.date_created}}
+      <br />
+      <br /><strong>" {{blog.body}} "</strong>
+      <br>
+    <div>
+      <button class="btn">Delete</button>
+      <button class="btn">Edit</button>
+    </div>
+    </p>
+    {% endfor %}
   </div>
-  <div class="d-flex col-12 col-md-5 col-lg-6 justify-content-center">
-    <ul class="list-group shadow">
-      {% for blog in blogs %}
-      <li class="list-group-item p-3">
-        User: {{blog.user.username}} <strong>Title: </strong>{{blog.title}} | {{blog.date_created}}
-        <br />
-        <br /><strong>" {{blog.body}} "</strong>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
 </div>
 {% endblock content %}

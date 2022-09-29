@@ -16,8 +16,8 @@
           <form action="{% url 'users_app:login' %}" method="POST">
             {% csrf_token %}
             <div class="d-flex flex-column">
-            <input class="rounded mt-1" type="text" name="username" placeholder="Enter username">
-            <input class="rounded mt-3 " type="text" name="password" placeholder="Enter password">
+            <input class="rounded mt-1" type="text" name="username" placeholder="Username">
+            <input class="rounded mt-3 " type="text" name="password" placeholder="Password">
             </div>
             <div class="">
               <button type="submit" class="btn shadow btn-sm btn-outline-primary mt-3">Sign in</button>

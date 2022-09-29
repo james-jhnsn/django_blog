@@ -23,7 +23,7 @@ def register(request):
         new_user = User.objects.create_user(username=username, password=password)
 
         django_login(request, new_user)
-        return redirect(reverse("users_app:register"))
+        return redirect(reverse("blog_app:home"))
 
     else:
 
