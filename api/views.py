@@ -13,7 +13,8 @@ class PostViewSet(viewsets.ModelViewSet):
     
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = get_user_model().objects.all()
-    serializer_class = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
 
 class CurrentUserView(generics.RetrieveAPIView):
