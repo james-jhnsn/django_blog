@@ -4,12 +4,25 @@ const vm = new Vue({
   data: {
     csrfToken: "",
     posts: [],
+    users: [],
     detail: [],
     currentUser: {},
+    create: false,
+    newPost: {
+      title: "",
+      author: null,
+      body: "",
+    },
+  },
+  filters: {
+    formatTime: function (value) {
+      let time = value.split(/[T]/)[0].split("-");
+      return `${time[0]}/${time[1]}/${time[2]}`;
+    },
   },
 
   methods: {
-    loadPosts: function() {
+    loadPosts: function () {
       axios({
         method: "get",
         url: "api/v1/posts",
@@ -21,13 +34,51 @@ const vm = new Vue({
           console.log(error);
         });
     },
+    loadUsers: function () {
+      axios({
+        method: "get",
+        url: "api/v1/users/",
+      }).then((response) => (this.users = response.data));
+    },
+    loadCurrentUser: function () {
+      axios({
+        method: "get",
+        url: "/api/v1/currentuser/",
+      }).then((response) => (this.currentUser = response.data));
+    },
+    createPost: function () {
+      axios({
+        method: "post",
+        url: "/api/v1/posts/",
+        header: {
+          "X-CSRFToken": this.csrfToken,
+        },
+        data: {
+          title: this.newPost.title,
+          author: this.currentUser.id,
+          body: this.newPost.body,
+        },
+      })
+        .then((response) => {
+          this.loadPosts();
+          this.newPost = {
+            title: "",
+            author: null,
+            body: "",
+          };
+          this.postErrors = {};
+        })
+        .catch((error) => (this.postErrors = error.response.data));
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.csrfToken = document.querySelector(
       "input[name=csrfmiddlewaretoken]"
     ).value;
   },
-  created: function() {
+  created: function () {
     this.loadPosts();
+    this.loadUsers();
+    this.loadCurrentUser();
   },
 });

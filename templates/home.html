@@ -31,18 +31,25 @@
                 {% include 'partials/_navbar.html' %}
             </div>
             <div class="container">
-                <div class="row">
+                <div class="row" v-if="!create">
                     <div>
                         <div v-for='post in posts' :key="post.id" class="card mx-auto m-4" style="width: 22rem;">
                             <div class="card-body p-0">
                                 <h5 class="card-title p-2">[[ post.title ]]</h5>
+                                <h6 class="card-subtitle mb-2 text-muted p-2 text-capitalize">[[
+                                    post.author_detail.username ]]</h6>
                                 <p class="card-text p-2">[[ post.body ]]</p>
-                                <div class="card-footer text-muted text-capitalize">
-                                    [[ post.author_detail.username ]] [[ post.updated ]]
-                                  </div>
+                                <div class="card-footer text-muted text-capitalize fst-italic text-end">
+                                    Posted: [[ post.updated | formatTime ]]
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row" v-if="create">
+                    <input type="text" class="form-control w-50" v-model="newPost.title">
+                    <input type="text" class="form-control w-50" v-model="newPost.body">
+                    <button class="btn btn-primary" @click="createPost">New Post</button>
                 </div>
             </div>
         </div>
