@@ -43,7 +43,7 @@ const vm = new Vue({
     loadCurrentUser: function () {
       axios({
         method: "get",
-        url: "/api/v1/currentuser/",
+        url: "/api/v1/current-user/",
       }).then((response) => (this.currentUser = response.data));
     },
     createPost: function () {
@@ -56,11 +56,12 @@ const vm = new Vue({
         data: {
           title: this.newPost.title,
           author: this.currentUser.id,
-          body: this.newPost.body,
+          body: this.newPost.body
         },
       })
-        .then((response) => {
-          this.loadPosts();
+        .then(response => {
+          this.loadPosts()
+          // this.create = false
           this.newPost = {
             title: "",
             author: null,
@@ -71,14 +72,14 @@ const vm = new Vue({
         .catch((error) => (this.postErrors = error.response.data));
     },
   },
-  mounted: function () {
-    this.csrfToken = document.querySelector(
-      "input[name=csrfmiddlewaretoken]"
-    ).value;
-  },
   created: function () {
     this.loadPosts();
     this.loadUsers();
     this.loadCurrentUser();
+  },
+  mounted: function () {
+    this.csrfToken = document.querySelector(
+      "input[name=csrfmiddlewaretoken]"
+    ).value;
   },
 });
