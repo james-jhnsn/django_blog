@@ -50,7 +50,7 @@ const vm = new Vue({
       axios({
         method: "post",
         url: "/api/v1/posts/",
-        header: {
+        headers: {
           "X-CSRFToken": this.csrfToken,
         },
         data: {
