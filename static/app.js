@@ -7,7 +7,7 @@ const vm = new Vue({
     users: [],
     detail: [],
     currentUser: {},
-    create: false,
+    create: true,
     newPost: {
       title: "",
       author: null,
