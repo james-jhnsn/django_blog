@@ -13,6 +13,7 @@ const vm = new Vue({
       author: null,
       body: "",
     },
+    postErrors: {}
   },
   filters: {
     formatTime: function (value) {
