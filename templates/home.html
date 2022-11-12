@@ -12,10 +12,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/ff1d9ad615.js" crossorigin="anonymous"></script>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+
 
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
@@ -38,7 +41,29 @@
                                 <h5 class="card-title p-2">[[ post.title ]]</h5>
                                 <h6 class="card-subtitle mb-2 text-muted p-2 text-capitalize">[[
                                     post.author_detail.username ]]</h6>
-                                <p class="card-text p-2">[[ post.body ]]</p>
+                                <p class="card-text px-2">[[ post.body ]]</p>
+                                <p class="card-text text-end px-2"><i
+                                        class="fa-solid fa-trash edit mx-3 text-danger" :click()></i><i
+                                        class="fa-sharp fa-solid fa-pencil text-primary edit"></i></p>
+                                <div class="card-footer text-muted text-capitalize fst-italic text-end">
+                                    Posted: [[ post.updated | formatTime ]]
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" v-if="edit" style="height: 90vh;">
+                <div class="row">
+                    <div>
+                        <div v-for='post in posts' :key="post.id" class="card mx-auto m-4" style="width: 22rem;">
+                            <div class="card-body p-0">
+                                <h5 class="card-title p-2">[[ post.title ]]</h5>
+                                <h6 class="card-subtitle mb-2 text-muted p-2 text-capitalize">[[
+                                    post.author_detail.username ]]</h6>
+                                <p class="card-text px-2">[[ post.body ]]</p>
+                                <p class="card-text text-end px-2"><i
+                                        class="fa-solid fa-trash edit mx-3 text-danger"></i><i
                                 <div class="card-footer text-muted text-capitalize fst-italic text-end">
                                     Posted: [[ post.updated | formatTime ]]
                                 </div>
@@ -50,16 +75,19 @@
             <div class="container d-flex align-items-center justify-content-center" v-if="create" style="height: 50vh;">
                 <div class="mb-5">
                     <template v-if="postErrors.body">
-                        <p class="text-center text-danger text-uppercase" v-for="error in postErrors.body">[[ error ]]</p>
+                        <p class="text-center text-danger text-uppercase" v-for="error in postErrors.body">[[ error ]]
+                        </p>
                     </template>
                     <div class="row">
                         <div class="">
-                            <input type="text" class="form-control form-control-lg shadow-none" placeholder="Title" v-model="newPost.title">
+                            <input type="text" class="form-control form-control-lg shadow-none" placeholder="Title"
+                                v-model="newPost.title">
                         </div>
                     </div>
                     <div class="row">
                         <div class="">
-                            <textarea type="text" class="form-control form-control-lg shadow-none mt-4" placeholder="Message..." v-model="newPost.body"></textarea>
+                            <textarea type="text" class="form-control form-control-lg shadow-none mt-4"
+                                placeholder="Message..." v-model="newPost.body"></textarea>
                         </div>
                     </div>
                     <button class="btn btn-primary d-inline d-block mx-auto mt-2" @click="createPost">Post</button>

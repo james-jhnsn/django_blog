@@ -7,7 +7,7 @@ const vm = new Vue({
     users: [],
     detail: [],
     currentUser: {},
-    create: true,
+    create: false,
     newPost: {
       title: "",
       author: null,
@@ -62,7 +62,7 @@ const vm = new Vue({
       })
         .then(response => {
           this.loadPosts()
-          // this.create = false
+          this.create = false
           this.newPost = {
             title: "",
             author: null,
@@ -72,6 +72,18 @@ const vm = new Vue({
         })
         .catch((error) => (this.postErrors = error.response.data));
     },
+    editPost: function () {
+      axios({
+        method: 'patch',
+        url: '/api/v1/posts/',
+        headers: {
+          'X-CSRFToken': this.csrfToken
+        },
+        data: {
+          'titl'
+        }
+      })
+    }
   },
   created: function () {
     this.loadPosts();
