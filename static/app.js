@@ -79,8 +79,11 @@ const vm = new Vue({
         headers: {
           'X-CSRFToken': this.csrfToken
         },
+        // try to grab the post from the api endpoint, to get the current text for that post
         data: {
-          'titl'
+          title: this.newPost.title, 
+          author: this.currentUser.id,
+          body: this.newPost.body
         }
       })
     }
