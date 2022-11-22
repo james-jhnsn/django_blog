@@ -8,12 +8,13 @@ const vm = new Vue({
     detail: [],
     currentUser: {},
     create: false,
+    edit: false,
     newPost: {
       title: "",
       author: null,
       body: "",
     },
-    postErrors: {}
+    postErrors: {},
   },
   filters: {
     formatTime: function (value) {
@@ -57,12 +58,12 @@ const vm = new Vue({
         data: {
           title: this.newPost.title,
           author: this.currentUser.id,
-          body: this.newPost.body
+          body: this.newPost.body,
         },
       })
-        .then(response => {
-          this.loadPosts()
-          this.create = false
+        .then((response) => {
+          this.loadPosts();
+          this.create = false;
           this.newPost = {
             title: "",
             author: null,
@@ -72,21 +73,27 @@ const vm = new Vue({
         })
         .catch((error) => (this.postErrors = error.response.data));
     },
-    editPost: function () {
+    editPost: function (post) {
       axios({
-        method: 'patch',
-        url: '/api/v1/posts/',
+        method: "patch",
+        url: "/api/v1/posts/",
         headers: {
-          'X-CSRFToken': this.csrfToken
+          "X-CSRFToken": this.csrfToken,
         },
-        // try to grab the post from the api endpoint, to get the current text for that post
         data: {
-          title: this.newPost.title, 
+          title: this.newPost.title,
           author: this.currentUser.id,
-          body: this.newPost.body
-        }
+          body: this.newPost.body,
+        },
       })
-    }
+        .then((response) => {
+          this.loadPosts();
+          this.create = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   created: function () {
     this.loadPosts();

@@ -43,7 +43,8 @@
                                     post.author_detail.username ]]</h6>
                                 <p class="card-text px-2">[[ post.body ]]</p>
                                 <p class="card-text text-end px-2"><i class="fa-solid fa-trash edit mx-3 text-danger"
-                                        :click()></i><i class="fa-sharp fa-solid fa-pencil text-primary edit"></i></p>
+                                        @click='editPost(post.id)'></i><i
+                                        class="fa-sharp fa-solid fa-pencil text-primary edit"></i></p>
                                 <div class="card-footer text-muted text-capitalize fst-italic text-end">
                                     Posted: [[ post.updated | formatTime ]]
                                 </div>
@@ -61,34 +62,34 @@
                                 post.author_detail.username ]]</h6>
                             <p class="card-text px-2">[[ post.body ]]</p>
                             <p class="card-text text-end px-2"><i class="fa-solid fa-trash edit mx-3 text-danger"></i>
-                                    <div class="card-footer text-muted text-capitalize fst-italic text-end">
-                                    Posted: [[ post.updated | formatTime ]]
+                            <div class="card-footer text-muted text-capitalize fst-italic text-end">
+                                Posted: [[ post.updated | formatTime ]]
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container d-flex align-items-center justify-content-center" v-if="create" style="height: 50vh;">
-            <div class="mb-5">
-                <template v-if="postErrors.body">
-                    <p class="text-center text-danger text-uppercase" v-for="error in postErrors.body">[[ error ]]
-                    </p>
-                </template>
-                <div class="row">
-                    <div class="">
-                        <input type="text" class="form-control form-control-lg shadow-none" placeholder="Title"
-                            v-model="newPost.title">
+            <div class="container d-flex align-items-center justify-content-center" v-if="create" style="height: 50vh;">
+                <div class="mb-5">
+                    <template v-if="postErrors.body">
+                        <p class="text-center text-danger text-uppercase" v-for="error in postErrors.body">[[ error ]]
+                        </p>
+                    </template>
+                    <div class="row">
+                        <div class="">
+                            <input type="text" class="form-control form-control-lg shadow-none" placeholder="Title"
+                                v-model="newPost.title">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="">
-                        <textarea type="text" class="form-control form-control-lg shadow-none mt-4"
-                            placeholder="Message..." v-model="newPost.body"></textarea>
+                    <div class="row">
+                        <div class="">
+                            <textarea type="text" class="form-control form-control-lg shadow-none mt-4"
+                                placeholder="Message..." v-model="newPost.body"></textarea>
+                        </div>
                     </div>
+                    <button class="btn btn-primary d-inline d-block mx-auto mt-2" @click="createPost">Post</button>
                 </div>
-                <button class="btn btn-primary d-inline d-block mx-auto mt-2" @click="createPost">Post</button>
             </div>
-        </div>
         </div>
     </main>
 
