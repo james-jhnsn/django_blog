@@ -1,6 +1,28 @@
 Vue.component('create', {
   data: function() {
-    
+    axios({
+      method: "post",
+      url: "/api/v1/posts/",
+      headers: {
+        "X-CSRFToken": this.csrfToken,
+      },
+      data: {
+        title: this.newPost.title,
+        author: this.currentUser.id,
+        body: this.newPost.body,
+      },
+    })
+      .then((response) => {
+        this.loadPosts();
+        this.create = false;
+        this.newPost = {
+          title: "",
+          author: null,
+          body: "",
+        };
+        this.postErrors = {};
+      })
+      .catch((error) => (this.postErrors = error.response.data));
   }
 })
 
@@ -55,31 +77,31 @@ const vm = new Vue({
         url: "/api/v1/current-user/",
       }).then((response) => (this.currentUser = response.data));
     },
-    createPost: function () {
-      axios({
-        method: "post",
-        url: "/api/v1/posts/",
-        headers: {
-          "X-CSRFToken": this.csrfToken,
-        },
-        data: {
-          title: this.newPost.title,
-          author: this.currentUser.id,
-          body: this.newPost.body,
-        },
-      })
-        .then((response) => {
-          this.loadPosts();
-          this.create = false;
-          this.newPost = {
-            title: "",
-            author: null,
-            body: "",
-          };
-          this.postErrors = {};
-        })
-        .catch((error) => (this.postErrors = error.response.data));
-    },
+    // createPost: function () {
+    //   axios({
+    //     method: "post",
+    //     url: "/api/v1/posts/",
+    //     headers: {
+    //       "X-CSRFToken": this.csrfToken,
+    //     },
+    //     data: {
+    //       title: this.newPost.title,
+    //       author: this.currentUser.id,
+    //       body: this.newPost.body,
+    //     },
+    //   })
+    //     .then((response) => {
+    //       this.loadPosts();
+    //       this.create = false;
+    //       this.newPost = {
+    //         title: "",
+    //         author: null,
+    //         body: "",
+    //       };
+    //       this.postErrors = {};
+    //     })
+    //     .catch((error) => (this.postErrors = error.response.data));
+    // },
     editPost: function (post) {
       axios({
         method: "patch",
