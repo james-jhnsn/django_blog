@@ -1,3 +1,10 @@
+Vue.component('create', {
+  data: function() {
+    
+  }
+})
+
+
 const vm = new Vue({
   el: "#app",
   delimiters: ["[[", "]]"],
