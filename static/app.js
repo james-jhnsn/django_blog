@@ -1,31 +1,62 @@
-Vue.component('create', {
-  data: function() {
-    axios({
-      method: "post",
-      url: "/api/v1/posts/",
-      headers: {
-        "X-CSRFToken": this.csrfToken,
-      },
-      data: {
-        title: this.newPost.title,
-        author: this.currentUser.id,
-        body: this.newPost.body,
-      },
-    })
-      .then((response) => {
-        this.loadPosts();
-        this.create = false;
-        this.newPost = {
-          title: "",
-          author: null,
-          body: "",
-        };
-        this.postErrors = {};
+Vue.component("create", {
+  data: function () {
+    return {
+      create: false,
+    };
+  },
+  template: `
+  <a class="nav-link text-decoration-none text-capitalize" role="button">+ New Post</a>`,
+  methods: {
+    createPost: function () {
+      axios({
+        method: "post",
+        url: "/api/v1/posts/",
+        headers: {
+          "X-CSRFToken": this.csrfToken,
+        },
+        data: {
+          title: this.newPost.title,
+          author: this.currentUser.id,
+          body: this.newPost.body,
+        },
       })
-      .catch((error) => (this.postErrors = error.response.data));
-  }
-})
+        .then((response) => {
+          this.loadPosts();
+          // this.create = false;
+          this.newPost = {
+            title: "",
+            author: null,
+            body: "",
+          };
+          this.postErrors = {};
+        })
+        .catch((error) => (this.postErrors = error.response.data));
+    },
+  },
+});
 
+Vue.component("navbar", {
+  data: function () {
+    return {};
+  },
+  template: `
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+      <img src="/static/images/icons8-osprey-50.png" alt="">
+    </a>
+    <ul class="nav my-auto">
+      {% if user.is_authenticated %}
+      <a class="nav-link text-decoration-none text-capitalize px-0">Welcome, {{user.username}}!</a>
+      <create></create>
+      <!-- <a class="nav-link text-decoration-none text-capitalize" role="button"  @click='create=true'>+ New Post</a> -->
+      <a class="nav-link text-decoration-none text-u" href="{% url 'logout' %}">Logout</a>
+      {% else %}
+      <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+      <li class="nav-item"><a href="{% url 'users:signup' %}" class="nav-link">Signup</a></li>
+      {% endif %}
+    </ul>
+</header>`,
+});
 
 const vm = new Vue({
   el: "#app",
@@ -36,7 +67,7 @@ const vm = new Vue({
     users: [],
     detail: [],
     currentUser: {},
-    create: false,
+    // create: false,
     edit: false,
     newPost: {
       title: "",
